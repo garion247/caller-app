@@ -1,0 +1,16 @@
+name: Version Pins
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  pinned-frozen:
+    uses: garion247/shared-workflows/.github/workflows/build.yml@v1.0.0
+    with:
+      target: frozen
+
+  pinned-sliding:
+    uses: garion247/shared-workflows/.github/workflows/build.yml@v1
+    with:
+      target: sliding
