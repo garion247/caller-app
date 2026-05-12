@@ -5,13 +5,8 @@ on:
     branches: [ master ]
 
 jobs:
-  stays-on-v1:
-    uses: garion247/shared-workflows/.github/workflows/build.yml@v1
-    with:
-      target: legacy
-
-  upgraded-to-v2:
+  broken-v2-call:
     uses: garion247/shared-workflows/.github/workflows/build.yml@v2
     with:
-      target: modern
-      release-channel: stable
+      target: legacy
+      # release-channel is missing - v2 requires it
