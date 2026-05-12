@@ -1,0 +1,12 @@
+name: Release Caller
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  release:
+    uses: garion247/shared-workflows/.github/workflows/release.yml@v1
+    with:
+      target: production
+      environments: '["us-east","eu-west"]'
