@@ -5,12 +5,13 @@ on:
     branches: [ master ]
 
 jobs:
-  pinned-frozen:
-    uses: garion247/shared-workflows/.github/workflows/build.yml@v1.0.0
-    with:
-      target: frozen
-
-  pinned-sliding:
+  stays-on-v1:
     uses: garion247/shared-workflows/.github/workflows/build.yml@v1
     with:
-      target: sliding
+      target: legacy
+
+  upgraded-to-v2:
+    uses: garion247/shared-workflows/.github/workflows/build.yml@v2
+    with:
+      target: modern
+      release-channel: stable
