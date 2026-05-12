@@ -5,15 +5,17 @@ on:
     branches: [ master ]
 
 jobs:
-  explicit-secrets:
-    uses: ./.github/workflows/reusable-build.yml
+  pin-by-tag:
+    uses: garion247/shared-workflows/.github/workflows/build.yml@v1.0.0
     with:
       target: staging
-    secrets:
-      DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
-  inherited-secrets:
-    uses: ./.github/workflows/reusable-build.yml
+  pin-by-branch:
+    uses: garion247/shared-workflows/.github/workflows/build.yml@master
+    with:
+      target: development
+
+  pin-by-sha:
+    uses: garion247/shared-workflows/.github/workflows/build.yml@94005b7ca693fd3b23b009955fee3a67353b2558
     with:
       target: production
-    secrets: inherit
