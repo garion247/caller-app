@@ -5,5 +5,18 @@ on:
     branches: [ master ]
 
 jobs:
-  call-build:
+  build-staging:
     uses: ./.github/workflows/reusable-build.yml
+    with:
+      node-version: '20'
+      run-tests: true
+      target: staging
+
+  report:
+    needs: build-staging
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Reusable workflow returned:"
+          echo "  version:     ${{ needs.build-staging.outputs.version }}"
+          echo "  target-echo: ${{ needs.build-staging.outputs.target-echo }}"
