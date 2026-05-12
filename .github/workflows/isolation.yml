@@ -1,0 +1,21 @@
+name: Isolation Demo
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  CALLER_ENV: "set-in-caller"
+
+jobs:
+  reads-caller-env:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Local job sees CALLER_ENV: $CALLER_ENV"
+
+  calls-shared:
+    uses: garion247/shared-workflows/.github/workflows/build.yml@v2
+    with:
+      target: isolated
+      release-channel: stable
