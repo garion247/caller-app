@@ -3,44 +3,21 @@ name: Reusable Build
 on:
   workflow_call:
     inputs:
-      node-version:
-        description: 'Node.js version to use'
-        required: false
-        type: string
-        default: '20'
-      run-tests:
-        description: 'Whether to run tests'
-        required: false
-        type: boolean
-        default: true
       target:
-        description: 'Target environment'
         required: true
         type: string
-    outputs:
-      version:
-        description: 'Computed build version'
-        value: ${{ jobs.build.outputs.version }}
-      target-echo:
-        description: 'Echo of the target input'
-        value: ${{ jobs.build.outputs.target-echo }}
+    secrets:
+      DEPLOY_TOKEN:
+        description: 'Token used to authenticate to the deploy target'
+        required: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.compute.outputs.version }}
-      target-echo: ${{ inputs.target }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ inputs.node-version }}
-
-      - if: inputs.run-tests
-        run: npm test
-
-      - id: compute
-        run: |
-          echo "version=1.0.${{ github.run_number }}+${{ inputs.target }}" >> "$GITHUB_OUTPUT"
-          echo "Built for ${{ inputs.target }} on Node ${{ inputs.node-version }}"
+      - run: |
+          echo "Target: ${{ inputs.target }}"
+          echo "Token length: ${#TOKEN}"
+          echo "If you echo the token, GitHub auto-masks it: $TOKEN"
+        env:
+          TOKEN: ${{ secrets.DEPLOY_TOKEN }}

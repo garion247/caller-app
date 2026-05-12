@@ -5,18 +5,15 @@ on:
     branches: [ master ]
 
 jobs:
-  build-staging:
+  explicit-secrets:
     uses: ./.github/workflows/reusable-build.yml
     with:
-      node-version: '20'
-      run-tests: true
       target: staging
+    secrets:
+      DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
-  report:
-    needs: build-staging
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "Reusable workflow returned:"
-          echo "  version:     ${{ needs.build-staging.outputs.version }}"
-          echo "  target-echo: ${{ needs.build-staging.outputs.target-echo }}"
+  inherited-secrets:
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      target: production
+    secrets: inherit
