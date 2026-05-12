@@ -1,0 +1,24 @@
+name: Matrix Caller
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      environments:
+        description: 'JSON array of environments'
+        required: true
+        type: string
+        default: '["dev","staging","prod"]'
+
+jobs:
+  default-list:
+    uses: garion247/shared-workflows/.github/workflows/matrix-test.yml@v1
+    with:
+      environments: '["dev","staging"]'
+
+  from-input:
+    if: github.event_name == 'workflow_dispatch'
+    uses: garion247/shared-workflows/.github/workflows/matrix-test.yml@v1
+    with:
+      environments: ${{ inputs.environments }}
