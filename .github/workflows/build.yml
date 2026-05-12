@@ -1,0 +1,22 @@
+name: Build (shared)
+
+on:
+  workflow_call:
+    inputs:
+      target:
+        required: true
+        type: string
+    outputs:
+      version:
+        value: ${{ jobs.build.outputs.version }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+    steps:
+      - id: v
+        run: |
+          echo "version=1.0.${{ github.run_number }}+${{ inputs.target }}" >> "$GITHUB_OUTPUT"
+          echo "Build for ${{ inputs.target }} at v1.0.1"
